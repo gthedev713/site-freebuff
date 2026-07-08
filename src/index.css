@@ -1,0 +1,233 @@
+/* ============================================
+   ΧΑΡΤΟΜΑΝΙ — Terminal Bookshop Theme
+   Dark theme with warm amber reading-lamp glow
+   Monospace typography, scanline CRT effects
+   ============================================ */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@custom-variant dark (&:is(.dark *));
+
+/* ── Font Variables ── */
+@theme inline {
+  --font-mono: "JetBrains Mono", monospace;
+  --font-sans: "Space Grotesk", sans-serif;
+}
+
+/* ── Design Tokens ── */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ── Terminal Dark Palette ── */
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.13 0.02 70);        /* deep warm dark */
+  --foreground: oklch(0.85 0.05 85);         /* warm off-white */
+  --card: oklch(0.17 0.025 70);              /* slightly lighter */
+  --card-foreground: oklch(0.85 0.05 85);
+  --popover: oklch(0.17 0.025 70);
+  --popover-foreground: oklch(0.85 0.05 85);
+  --primary: oklch(0.7 0.15 75);             /* warm amber */
+  --primary-foreground: oklch(0.13 0.02 70);
+  --secondary: oklch(0.55 0.12 145);         /* muted green */
+  --secondary-foreground: oklch(0.13 0.02 70);
+  --muted: oklch(0.2 0.02 70);
+  --muted-foreground: oklch(0.6 0.04 80);
+  --accent: oklch(0.6 0.14 145);             /* terminal green */
+  --accent-foreground: oklch(0.13 0.02 70);
+  --destructive: oklch(0.6 0.2 25);
+  --border: oklch(0.28 0.04 70);
+  --input: oklch(0.25 0.03 70);
+  --ring: oklch(0.7 0.15 75);                /* amber ring */
+  --chart-1: oklch(0.7 0.15 75);
+  --chart-2: oklch(0.55 0.12 145);
+  --chart-3: oklch(0.6 0.1 250);
+  --chart-4: oklch(0.65 0.13 45);
+  --chart-5: oklch(0.6 0.14 310);
+  --sidebar: oklch(0.17 0.025 70);
+  --sidebar-foreground: oklch(0.85 0.05 85);
+  --sidebar-primary: oklch(0.7 0.15 75);
+  --sidebar-primary-foreground: oklch(0.13 0.02 70);
+  --sidebar-accent: oklch(0.55 0.12 145);
+  --sidebar-accent-foreground: oklch(0.13 0.02 70);
+  --sidebar-border: oklch(0.28 0.04 70);
+  --sidebar-ring: oklch(0.7 0.15 75);
+}
+
+/* ── Base Styles ── */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.28 0.04 70) transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: "Space Grotesk", sans-serif;
+    position: relative;
+  }
+
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: oklch(0.7 0.15 75 / 0.35);
+    color: oklch(0.95 0.02 85);
+  }
+}
+
+/* ── Scanline Overlay ── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    oklch(0 0 0 / 0.04) 2px,
+    oklch(0 0 0 / 0.04) 4px
+  );
+}
+
+/* ── CRT Vignette ── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    oklch(0 0 0 / 0.5) 100%
+  );
+}
+
+/* ── Ken Burns Keyframes ── */
+@keyframes ken-burns {
+  0% { transform: scale(1.15) translateX(0); }
+  50% { transform: scale(1.08) translateX(-2%); }
+  100% { transform: scale(1.15) translateX(0); }
+}
+
+@keyframes ken-burns-alt {
+  0% { transform: scale(1.12) translateX(0) translateY(0); }
+  50% { transform: scale(1.05) translateX(3%) translateY(-2%); }
+  100% { transform: scale(1.12) translateX(0) translateY(0); }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 12s ease-in-out infinite;
+}
+
+.animate-ken-burns-alt {
+  animation: ken-burns-alt 14s ease-in-out infinite;
+}
+
+/* ── Marquee ── */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ── Shimmer / Shine for tilt cards ── */
+.shine-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--shine-x, 50%) var(--shine-y, 50%),
+    oklch(1 0 0 / 0.12) 0%,
+    transparent 60%
+  );
+  transition: background 0.1s ease;
+}
+
+/* ── Blinking Cursor ── */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.animate-cursor-blink {
+  animation: blink 1.2s step-end infinite;
+}
+
+/* ── CRT Glow ── */
+@keyframes crt-glow {
+  0%, 100% { text-shadow: 0 0 8px oklch(0.7 0.15 75 / 0.3); }
+  50% { text-shadow: 0 0 16px oklch(0.7 0.15 75 / 0.5); }
+}
+
+.animate-crt-glow {
+  animation: crt-glow 3s ease-in-out infinite;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.28 0.04 70);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.4 0.06 70);
+}
