@@ -18,11 +18,13 @@ function RouteLoading() {
   );
 }
 
-class RootErrorBoundary extends React.Component
+// Διορθωμένος ορισμός της κλάσης με χρήση generics <P, S>
+class RootErrorBoundary extends React.Component<
   { children: React.ReactNode },
   { hasError: boolean; message: string; stack: string }
 > {
   state = { hasError: false, message: "", stack: "" };
+  
   static getDerivedStateFromError(error: Error) {
     return {
       hasError: true,
@@ -30,9 +32,11 @@ class RootErrorBoundary extends React.Component
       stack: error.stack || "",
     };
   }
+  
   componentDidCatch(err: Error) {
     console.error("[WebContainer preview] Root crash:", err);
   }
+  
   render() {
     if (this.state.hasError) {
       return (
@@ -65,6 +69,7 @@ function RouteSyncer() {
       "*",
     );
   }, [location.pathname]);
+  
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
       if (event.data?.type === "navigate") {
@@ -75,6 +80,7 @@ function RouteSyncer() {
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
   }, []);
+  
   return null;
 }
 
