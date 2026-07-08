@@ -10,10 +10,8 @@
   --ring: #b38b36;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
-  border: 1px solid var(--border);
-  outline: 1px solid rgba(179, 139, 54, 0.5);
 }
 
 body {
@@ -22,9 +20,16 @@ body {
   font-family: "Space Grotesk", sans-serif;
   margin: 0;
   position: relative;
+  min-height: 100vh;
 }
 
-/* ── CRT Effects (διατηρούνται γιατί είναι καθαρό CSS) ── */
+/* ── Ειδική κλάση για τα πλαίσια ── */
+.terminal-box {
+  border: 1px solid var(--border);
+  padding: 1rem;
+}
+
+/* ── CRT Effects ── */
 body::after {
   content: "";
   position: fixed;
@@ -44,6 +49,3 @@ body::before {
   pointer-events: none;
   background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.5) 100%);
 }
-
-/* Πρόσθεσε εδώ τα υπόλοιπα animations (blink, marquee κλπ) 
-   που δεν χρησιμοποιούν Tailwind κλάσεις */
